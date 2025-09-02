@@ -1,8 +1,28 @@
 package com.fiap.techChallenge.core.application.useCases.order;
 
-import com.fiap.techChallenge.core.domain.exceptions.EntityNotFoundException;
-import com.fiap.techChallenge.core.domain.exceptions.order.InvalidOrderStatusException;
-import com.fiap.techChallenge.core.domain.exceptions.product.ProductNotAvaiableException;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import com.fiap.techChallenge.core.application.services.product.ProductAvailabilityService;
 import com.fiap.techChallenge.core.domain.entities.order.Order;
 import com.fiap.techChallenge.core.domain.entities.order.OrderItem;
@@ -12,23 +32,10 @@ import com.fiap.techChallenge.core.domain.entities.user.customer.Customer;
 import com.fiap.techChallenge.core.domain.enums.Category;
 import com.fiap.techChallenge.core.domain.enums.OrderStatus;
 import com.fiap.techChallenge.core.domain.enums.ProductStatus;
+import com.fiap.techChallenge.core.domain.exceptions.EntityNotFoundException;
+import com.fiap.techChallenge.core.domain.exceptions.order.InvalidOrderStatusException;
+import com.fiap.techChallenge.core.domain.exceptions.product.ProductNotAvaiableException;
 import com.fiap.techChallenge.core.gateways.order.OrderGateway;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Testes para AddItemInOrderUseCase")
