@@ -1,21 +1,26 @@
 package com.fiap.techChallenge.core.application.useCases.order;
 
-import com.fiap.techChallenge.core.application.dto.order.UpdateOrderStatusInputDTO;
-import com.fiap.techChallenge.core.application.services.order.OrderStatusUpdaterService;
-import com.fiap.techChallenge.core.domain.entities.order.Order;
-import com.fiap.techChallenge.core.domain.enums.OrderStatus;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
+import com.fiap.techChallenge.core.application.dto.order.UpdateOrderStatusInputDTO;
+import com.fiap.techChallenge.core.application.services.order.OrderStatusUpdaterService;
+import com.fiap.techChallenge.core.domain.entities.order.Order;
+import com.fiap.techChallenge.core.domain.enums.OrderStatus;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Testes para UpdateOrderStatusUseCase")
@@ -44,6 +49,8 @@ class UpdateOrderStatusUseCaseTest {
 
         updateOrderStatusUseCase.execute(dto);
 
+
+        
         verify(orderStatusUpdaterService, times(1)).moveStatusToPaid(orderId);
         verifyNoMoreInteractions(orderStatusUpdaterService);
     }
