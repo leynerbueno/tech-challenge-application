@@ -53,6 +53,8 @@ class UpdateOrderStatusUseCaseTest {
         verifyNoMoreInteractions(orderStatusUpdaterService);
     }
 
+    
+
     @Test
     @DisplayName("Deve chamar moveStatusToInPreparation quando o status for EM_PREPARACAO")
     void shouldCallMoveStatusToInPreparation() {
