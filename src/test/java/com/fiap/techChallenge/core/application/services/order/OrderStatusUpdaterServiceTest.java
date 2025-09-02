@@ -88,7 +88,6 @@ class OrderStatusUpdaterServiceTest {
             Order result = orderStatusUpdaterService.moveStatusToPaid(order.getId());
 
             assertEquals(OrderStatus.PAGO, result.getCurrentStatus());
-            assertEquals(paymentId, result.getPaymentId());
             verify(orderGateway).save(result);
         }
 

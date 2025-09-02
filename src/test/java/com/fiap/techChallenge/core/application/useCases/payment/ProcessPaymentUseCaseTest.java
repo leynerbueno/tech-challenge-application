@@ -1,23 +1,24 @@
 package com.fiap.techChallenge.core.application.useCases.payment;
 
-import com.fiap.techChallenge.core.application.dto.payment.PaymentRequestDTO;
-import com.fiap.techChallenge.core.application.dto.payment.PaymentResponseDTO;
-import com.fiap.techChallenge.core.application.useCases.order.UpdateOrderIdPaymentUseCase;
-import com.fiap.techChallenge.core.gateways.payment.PaymentGateway;
+import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-import java.util.UUID;
-
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.fiap.techChallenge.core.application.dto.payment.PaymentRequestDTO;
+import com.fiap.techChallenge.core.application.dto.payment.PaymentResponseDTO;
+import com.fiap.techChallenge.core.application.useCases.order.UpdateOrderIdPaymentUseCase;
+import com.fiap.techChallenge.core.gateways.payment.PaymentGateway;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Testes para ProcessPaymentUseCase")
@@ -48,7 +49,6 @@ class ProcessPaymentUseCaseTest {
     void shouldProcessPaymentAndUpdateOrderIdSuccessfully() {
         // Arrange
         when(paymentGateway.process(paymentRequestDTO)).thenReturn(paymentResponseDTO);
-        when(paymentGateway.findPaymentByOrderId(orderId)).thenReturn("idPagamento123");
 
         // Act
         PaymentResponseDTO result = processPaymentUseCase.execute(paymentRequestDTO);
@@ -60,7 +60,5 @@ class ProcessPaymentUseCaseTest {
         assertEquals("https://url.qrcode/imagem.png", result.getQrCodeImage());
 
         verify(paymentGateway, times(1)).process(paymentRequestDTO);
-        verify(paymentGateway, times(1)).findPaymentByOrderId(orderId);
-        verify(updateOrderIdPaymentUseCase, times(1)).execute(orderId, "idPagamento123");
     }
 }

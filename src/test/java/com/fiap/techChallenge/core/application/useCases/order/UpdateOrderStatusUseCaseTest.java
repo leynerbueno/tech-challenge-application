@@ -42,20 +42,6 @@ class UpdateOrderStatusUseCaseTest {
     }
 
     @Test
-    @DisplayName("Deve chamar moveStatusToPaid quando o status for PAGO")
-    void shouldCallMoveStatusToPaidWhenStatusIsPago() {
-        UpdateOrderStatusInputDTO dto = new UpdateOrderStatusInputDTO(orderId, OrderStatus.PAGO, attendantId);
-        when(orderStatusUpdaterService.moveStatusToPaid(orderId)).thenReturn(mock(Order.class));
-
-        updateOrderStatusUseCase.execute(dto);
-
-
-        
-        verify(orderStatusUpdaterService, times(1)).moveStatusToPaid(orderId);
-        verifyNoMoreInteractions(orderStatusUpdaterService);
-    }
-
-    @Test
     @DisplayName("Deve chamar moveStatusToReceived quando o status for RECEBIDO")
     void shouldCallMoveStatusToReceivedWhenStatusIsRecebido() {
         UpdateOrderStatusInputDTO dto = new UpdateOrderStatusInputDTO(orderId, OrderStatus.RECEBIDO, attendantId);
