@@ -5,14 +5,16 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
-
-import com.fiap.techChallenge.core.interfaces.*;
-
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.fiap.techChallenge._webApi.dto.order.CreateOrderDTO;
 import com.fiap.techChallenge._webApi.dto.order.UpdateOrderStatusDTO;
@@ -23,6 +25,7 @@ import com.fiap.techChallenge.core.application.dto.order.OrderStatusViewDTO;
 import com.fiap.techChallenge.core.application.dto.order.OrderSummaryDTO;
 import com.fiap.techChallenge.core.application.dto.order.UpdateOrderStatusInputDTO;
 import com.fiap.techChallenge.core.controller.order.OrderController;
+import com.fiap.techChallenge.core.interfaces.CompositeDataSource;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,7 +34,7 @@ import jakarta.validation.constraints.Min;
 
 @RestController
 @RequestMapping("/api/order")
-@Tag(name = "Order", description = "APIs relacionadas aos Pedidos")
+@Tag(name = "Order", description = "APIs relacionadas aos Pedidos feitos pelos clientes")
 public class OrderWebController {
 
     private final OrderController orderController;
