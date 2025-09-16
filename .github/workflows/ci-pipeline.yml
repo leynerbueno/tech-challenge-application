@@ -1,4 +1,4 @@
-name: build
+name: build-and-publish
 
 on:
   push:
@@ -9,6 +9,10 @@ on:
     branches:
       - main
       - developer
+
+env:
+  ECR_REPOSITORY: tech-challenge-application
+  AWS_REGION: us-east-1
 
 jobs:
   build_and_test:
@@ -25,8 +29,45 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Rodar Testes com Maven
-        run: mvn test
+      - name: Rodar Testes e Construir a Aplicação
+        run: mvn clean package
 
-      - name: Construir a Aplicação (Jar)
-        run: mvn clean install
+  publish_to_aws:
+    runs-on: ubuntu-latest
+    needs: build_and_test
+    
+    # Esta job só é executada em push para a branch main
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+
+      - name: Configurar Credenciais da AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: us-east-1 
+
+      - name: Fazer Login no Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Construir e Publicar Imagem
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Update kubeconfig
+        run: |
+          aws eks update-kubeconfig --name challenge --region ${{ env.AWS_REGION }}
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f k8s/deployment.yml
+          kubectl rollout status deployment/challenge
