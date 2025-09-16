@@ -21,6 +21,8 @@ jobs:
   build_and_test:
     runs-on: ubuntu-latest
 
+    environment: secrets
+
     steps:
       - name: Checkout do Código
         uses: actions/checkout@v4
