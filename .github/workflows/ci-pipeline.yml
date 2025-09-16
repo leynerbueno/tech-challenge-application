@@ -13,6 +13,9 @@ on:
 env:
   ECR_REPOSITORY: tech-challenge-application
   AWS_REGION: us-east-1
+permissions:
+      id-token: write
+      contents: read  
 
 jobs:
   build_and_test:
@@ -49,7 +52,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws-region: us-east-1 
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Fazer Login no Amazon ECR
         id: login-ecr
