@@ -60,12 +60,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: built-jar
-
-      - name: Mover artefato para a pasta correta
-        run: |
-          mkdir -p target
-          mv built-jar/*.jar target/
-          rm -r built-jar
+          path: target/
           
       - name: Configurar Credenciais da AWS
         uses: aws-actions/configure-aws-credentials@v4
