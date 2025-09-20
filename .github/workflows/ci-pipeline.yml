@@ -88,5 +88,5 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f ${GITHUB_WORKSPACE}/k8s/deployment.yml
+          kubectl apply -f ${GITHUB_WORKSPACE}/tech-challenge-application/k8s/deployment.yml
           kubectl rollout status deployment/challenge
