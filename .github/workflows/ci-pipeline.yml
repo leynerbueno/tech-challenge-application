@@ -1,6 +1,5 @@
 name: build-and-publish
 
-
 on:
   push:
     branches:
@@ -52,17 +51,17 @@ jobs:
     # Esta job só é executada em push para a branch main
     if: github.ref == 'refs/heads/main'
 
-    
     steps:
       - name: Checkout do Código
         uses: actions/checkout@v4
-
+      
       # Baixa o artefato .jar
       - name: Download de Artefato
         uses: actions/download-artifact@v4
         with:
           name: built-jar
           path: target/
+      
       - name: Configurar Credenciais da AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
