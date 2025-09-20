@@ -1,4 +1,5 @@
 name: build-and-publish
+
 on:
   push:
     branches:
@@ -60,6 +61,12 @@ jobs:
         with:
           name: built-jar
 
+      - name: Mover artefato para a pasta correta
+        run: |
+          mkdir -p target
+          mv built-jar/*.jar target/
+          rm -r built-jar
+          
       - name: Configurar Credenciais da AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
