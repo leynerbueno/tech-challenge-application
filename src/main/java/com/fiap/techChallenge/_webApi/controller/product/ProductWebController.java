@@ -29,7 +29,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/product")
-@Tag(name = "Product", description = "APIs relacionadas ao Produto cadastrados pelos atendentes")
+@Tag(name = "Product", description = "APIs relacionadas ao Produto cadastrados pelos atendentes ")
 public class ProductWebController {
 
     private final ProductController productController;
