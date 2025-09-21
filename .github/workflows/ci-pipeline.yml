@@ -54,7 +54,9 @@ jobs:
     steps:
       - name: Checkout do Código
         uses: actions/checkout@v4
-      
+      - name: Listar Arquivos
+        run: ls -R
+
       # Baixa o artefato .jar
       - name: Download de Artefato
         uses: actions/download-artifact@v4
