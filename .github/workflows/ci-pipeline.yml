@@ -88,6 +88,5 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          cd tech-challenge-application
           kubectl apply -f k8s/deployment.yml
           kubectl rollout status deployment/challenge
