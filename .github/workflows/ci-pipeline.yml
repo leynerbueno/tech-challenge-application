@@ -54,6 +54,8 @@ jobs:
     steps:
       - name: Checkout do Código
         uses: actions/checkout@v4
+      
+      # Lista os arquivos para debug de caminho
       - name: Listar Arquivos
         run: ls -R
 
@@ -90,5 +92,5 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f k8s/deployment.yml
+          kubectl apply -f ./k8s/deployment.yml
           kubectl rollout status deployment/challenge
