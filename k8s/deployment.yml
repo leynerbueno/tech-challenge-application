@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: challenge
-          image: "975049913687.dkr.ecr.us-east-1.amazonaws.com/tech-challenge-application:latest"
+          image: "leynerbueno/tech-challenge:latest"
           ports:
             - containerPort: 8080
           env:
