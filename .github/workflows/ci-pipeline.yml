@@ -55,10 +55,6 @@ jobs:
       - name: Checkout do Código
         uses: actions/checkout@v4
       
-      # Lista os arquivos para debug de caminho
-      - name: Listar Arquivos
-        run: ls -R
-
       # Baixa o artefato .jar
       - name: Download de Artefato
         uses: actions/download-artifact@v4
@@ -77,11 +73,17 @@ jobs:
       - name: Fazer Login no Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
+      
+      # Obtém o ID da conta AWS dinamicamente
+      - name: Obter ID da Conta AWS
+        id: aws_account_id
+        run: echo "::set-output name=ACCOUNT_ID::$(aws sts get-caller-identity --query Account --output text)"
 
       - name: Construir e Publicar Imagem
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
+          ACCOUNT_ID: ${{ steps.aws_account_id.outputs.ACCOUNT_ID }}
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
@@ -91,6 +93,11 @@ jobs:
           aws eks update-kubeconfig --name challenge --region ${{ env.AWS_REGION }}
 
       - name: Deploy to Kubernetes
+        env:
+          ACCOUNT_ID: ${{ steps.aws_account_id.outputs.ACCOUNT_ID }}
+          AWS_REGION: ${{ env.AWS_REGION }}
+          IMAGE_TAG: ${{ github.sha }}
         run: |
+          sed -i 's/leynerbueno\/tech-challenge:latest/${{ env.ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com\/tech-challenge-application:${{ env.IMAGE_TAG }}/g' ./k8s/deployment.yml
           kubectl apply -f ./k8s/deployment.yml
           kubectl rollout status deployment/challenge
