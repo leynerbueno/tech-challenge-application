@@ -45,7 +45,7 @@ public class OrderWebController {
 
     @Transactional
     @PostMapping("/create")
-    @Operation(summary = "Create", description = "Cria um Pedido")
+    @Operation(summary = "Create", description = "Cria um Pedido que será realizado pelo cliente")
     public ResponseEntity<OrderResponseDTO> save(@RequestBody @Valid CreateOrderDTO order) {
         return ResponseEntity.ok(orderController.create(OrderMapper.toCreateOrderInputDTO(order)));
     }
