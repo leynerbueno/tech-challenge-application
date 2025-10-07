@@ -49,12 +49,14 @@ O projeto segue os princípios de Clean Architecture, dividido em camadas:
 ## Instalação
 
 1. Clone o repositório:
+
    ```bash
    git clone https://github.com/usuario/tech-challenge-application.git
    cd tech-challenge-application
    ```
 
 2. Instale as dependências:
+
    ```bash
    mvn clean install
    ```
@@ -71,7 +73,7 @@ Configure as variáveis de ambiente no arquivo `application.properties` ou via v
 - `MERCADO_PAGO_POS_ID`: ID do POS Mercado Pago
 - `EMAIL_USER`: Usuário do e-mail (Gmail)
 - `EMAIL_PASS`: Senha do e-mail (Gmail App Password)
-- `EMAIL_FROM`: E-mail remetente (padrão: techchallenge.noreply@gmail.com)
+- `EMAIL_FROM`: E-mail remetente (padrão: <techchallenge.noreply@gmail.com>)
 
 ## Execução
 
@@ -79,18 +81,23 @@ Configure as variáveis de ambiente no arquivo `application.properties` ou via v
 
 1. Certifique-se de que o MySQL está rodando.
 2. Execute a aplicação:
+
    ```bash
    mvn spring-boot:run
    ```
+
 3. Acesse a aplicação em `http://localhost:8080`
 
 ### Com Docker
 
 1. Construa a imagem:
+
    ```bash
    docker build -t tech-challenge .
    ```
+
 2. Execute o container:
+
    ```bash
    docker run -p 8080:8080 tech-challenge
    ```
@@ -98,6 +105,7 @@ Configure as variáveis de ambiente no arquivo `application.properties` ou via v
 ### Com Kubernetes
 
 Aplique o deployment:
+
 ```bash
 kubectl apply -f k8s/deployment.yml
 ```
@@ -118,6 +126,7 @@ Principais endpoints:
 ## Testes
 
 Execute os testes com:
+
 ```bash
 mvn test
 ```
